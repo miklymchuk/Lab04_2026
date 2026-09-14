@@ -6,7 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 
@@ -44,6 +43,7 @@ public class App extends Application {
         var lodging = new Label("Lodging charges:");
         var lodging2 = new TextField();
         
+        var confirmationText = new Label("");
         var confirmation = new Button("Confirm");
         
         // Data (cost & reimbursement) of the business trip
@@ -69,11 +69,62 @@ public class App extends Application {
         root.add(conference2, 1, 6);
         root.add(lodging, 0, 7);
         root.add(lodging2, 1, 7);
+        root.add(confirmationText, 0, 8);
         root.add(confirmation, 1, 8);
         root.add(expenses, 0, 9);
         root.add(allowable, 0, 10);
         root.add(excess, 0, 11);
         root.add(moneySaved, 0, 12);
+        
+        // Action of the confirmation button
+        confirmation.setOnAction(e -> {
+            // Checking if all the fields have digits 
+            var digits = "0123456789";
+            Boolean invalid = false;
+            TextField[] infoArray = {days2, airfare2, rental2, miles2, parking2, taxi2, conference2, lodging2};
+            for (int a = 0; a < 8 && invalid == false; a++) {
+                for (int b = 0; b < infoArray[a].getText().length(); b++) {
+                    if (!(digits.contains((infoArray[a].getText().charAt(b) + "")))) {
+                        invalid = true;
+                    }
+                }
+                if (infoArray[a].getText().length() == 0) {
+                    invalid = true;
+                }
+            }
+            
+            if (invalid == true) {
+                confirmationText.setText("Invalid information given.");
+                expenses.setText("");
+                allowable.setText("");
+                excess.setText("");
+                moneySaved.setText("");
+            } else {
+                confirmationText.setText("");
+                // Calculating expenses & reimbursement
+                double totalExpenses = Double.parseDouble(airfare2.getText()) 
+                        + Double.parseDouble(rental2.getText())
+                        + Double.parseDouble(parking2.getText())
+                        + Double.parseDouble(taxi2.getText())
+                        + Double.parseDouble(conference2.getText())
+                        + Double.parseDouble(lodging2.getText());
+                expenses.setText("Total Expenses: $" + totalExpenses + "0");
+                
+                double allowableReimbursement = (162.00 * Double.parseDouble(days2.getText()))
+                        + (0.27 * Double.parseDouble(miles2.getText()));
+                allowable.setText("Total Reimbursement: $" + allowableReimbursement);
+                
+                double excessExpenses = totalExpenses - allowableReimbursement;  
+                double tripDiscount = allowableReimbursement - totalExpenses;
+                if (totalExpenses > allowableReimbursement) {
+                    excess.setText("Excess Expenses: $" + excessExpenses);
+                    moneySaved.setText("You are not saving any money on this trip.");
+                } else {
+                    excess.setText("You do not have excess expenses.");
+                    moneySaved.setText("Money saved: $" + tripDiscount);
+                }
+            }
+        });
         
         
         var scene = new Scene(root, 640, 480);
