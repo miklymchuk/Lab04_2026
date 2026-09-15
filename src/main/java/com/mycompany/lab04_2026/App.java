@@ -1,6 +1,8 @@
 package com.mycompany.lab04_2026;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -126,9 +128,28 @@ public class App extends Application {
             }
         });
         
+        // Visual improvements & CSS Styling
+        root.setPadding(new Insets(30, 30, 30, 30));
+        root.setHgap(90.0);
+        root.setVgap(10.0);
+        root.setStyle("-fx-background-color: cyan;");
+        days.setStyle("-fx-font-family: georgia; -fx-font-size: 16px;");
+        airfare.setStyle("-fx-font-family: georgia; -fx-font-size: 16px;");
+        rental.setStyle("-fx-font-family: georgia; -fx-font-size: 16px;");
+        miles.setStyle("-fx-font-family: georgia; -fx-font-size: 16px;");
+        parking.setStyle("-fx-font-family: georgia; -fx-font-size: 16px;");
+        taxi.setStyle("-fx-font-family: georgia; -fx-font-size: 16px;");
+        conference.setStyle("-fx-font-family: georgia; -fx-font-size: 16px;");
+        lodging.setStyle("-fx-font-family: georgia; -fx-font-size: 16px;");
+        confirmationText.setStyle("-fx-font-family: georgia; -fx-font-size: 16px;");
+        expenses.setStyle("-fx-font-family: georgia; -fx-font-size: 16px;");
+        allowable.setStyle("-fx-font-family: georgia; -fx-font-size: 16px;");
+        excess.setStyle("-fx-font-family: georgia; -fx-font-size: 16px;");
+        moneySaved.setStyle("-fx-font-family: georgia; -fx-font-size: 16px;");
         
         var scene = new Scene(root, 640, 480);
         stage.setScene(scene);
+        stage.setTitle("Business Expenses & Reimbursements");
         stage.show();
     }
 
